@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: spend-track-testing-reports
+    branch: main
+    runtime: static
+    buildCommand: echo "skip"
+    staticPublishPath: ./playwright-report
+    envVars:
+      - key: NODE_VERSION
+        value: '18'
+    buildFilter:
+      paths:
+        - playwright-report/** # publica solo si cambian los reportes
+      ignoredPaths:
+        - docs/**
+        - README.md

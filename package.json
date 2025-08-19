@@ -39,10 +39,7 @@
     "test:report": "playwright show-report",
     "build-reports": "playwright install --with-deps && playwright test --reporter=html",
     "build-reports:ci": "playwright install && playwright test --reporter=html --project=chromium",
-    "build-reports:vercel": "playwright install chromium && (playwright test --reporter=html --project=chromium || echo 'Tests failed, generating fallback report')",
-    "build-reports:vercel-script": "./scripts/build-vercel.sh",
-    "build-reports:script": "./scripts/build-ci.sh",
-    "deploy:reports": "vercel --prod",
+    "build-reports:render": "playwright install --with-deps && playwright test --reporter=html --project=chromium",
     "prepare": "husky"
   }
 }
