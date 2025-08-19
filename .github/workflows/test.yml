@@ -38,6 +38,8 @@ jobs:
         
       - name: Run Playwright tests
         run: yarn test
+        continue-on-error: true
+        id: test-step
         env:
           CI: true
           
@@ -48,3 +50,22 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+
+      - name: Upload test evidence
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-evidence
+          path: test-evidence/
+          retention-days: 30
+
+      - name: Generate test summary
+        if: always()
+        run: |
+          echo "## 🧪 Quality Assurance Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "This project validates the quality of external applications." >> $GITHUB_STEP_SUMMARY
+          echo "**Expected behavior**: Some tests may fail when bugs are detected in the target application." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📊 Check the uploaded artifacts for detailed test reports and evidence." >> $GITHUB_STEP_SUMMARY
+          echo "📸 Test evidence includes screenshots, videos, and traces." >> $GITHUB_STEP_SUMMARY

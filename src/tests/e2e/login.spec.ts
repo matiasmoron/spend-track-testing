@@ -1,6 +1,6 @@
+import { testConfig } from '@/data/testConfig';
+import { EvidenceHelper } from '@/helpers/evidenceHelper';
 import { expect, test } from '@playwright/test';
-import { testConfig } from '../../data/testConfig';
-import { EvidenceHelper } from '../../helpers/evidenceHelper';
 
 test.describe('Login Feature', () => {
   test.beforeEach(async ({ page }) => {

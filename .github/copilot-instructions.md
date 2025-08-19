@@ -2,67 +2,83 @@
 
 ## Project Overview
 
-This repository is designed for scalable, maintainable E2E and integration testing using Playwright (TypeScript) and Model Context Protocol (MCP) servers. The goal is to automate robust test suite generation based on use cases, with a focus on high coverage and reliability.
+This repository provides scalable E2E and API testing using Playwright (TypeScript) with Model Context Protocol (MCP) integration for automated test generation. The architecture emphasizes evidence collection, centralized configuration, and maintainable test patterns.
+
+**🎯 Quality Assurance Focus**: This is a quality validation system for external applications. Test failures are expected and indicate bugs/quality issues in the target application, not framework problems.
 
 ## Architecture & Structure
 
-- **E2E Tests**: Located in `src/e2e-tests/`, written in Playwright/TypeScript. Follows modular, feature-based organization.
-- **API Tests**: Reserved for `src/api-tests/` (future use). Prefer Jest/Supertest for API, Playwright for browser-based scenarios.
-- **Helpers**: Shared utilities/fixtures in `src/helpers/`.
-- **Test Data**: Mocks and scenario data in `src/data/`.
-- **Config Files**: `playwright.config.ts` (test runner config), `eslint.config.mjs` (linting), `tsconfig.json` (TypeScript).
-- **Test Standards**: See `.github/instructions/playwright-typescript.instructions.md` for detailed test authoring guidelines.
+- **Test Organization**: All tests in `src/tests/` with `e2e/` and `api/` subdirectories
+- **Centralized Config**: `src/data/testConfig.ts` provides URLs, routes, credentials, and selectors
+- **Evidence System**: `src/helpers/evidenceHelper.ts` captures organized screenshots with timestamped naming
+- **MCP Integration**: `.github/prompts/playwright-generate-test.prompt.md` defines AI test generation workflow
 
-## Key Conventions & Patterns
+## Critical Patterns
 
-- **Locators**: Always prefer `data-testid` attributes. If unavailable, use resilient user-facing selectors (`getByRole`, `getByLabel`, etc.).
-- **Assertions**: Use Playwright's auto-retrying web-first assertions (e.g., `await expect(locator).toHaveText()`).
-- **Test Grouping**: Use `test.describe()` for feature grouping, `beforeEach` for setup.
-- **Naming**: Test files should follow `<feature-or-page>.spec.ts` and reside in `src/e2e-tests/`.
-- **Linting**: Run `yarn lint` or `npm run lint` to check code quality. ESLint rules enforce Playwright and TypeScript best practices.
-- **Test Execution**: Run E2E tests with `npx playwright test --project=chromium` (see config for other browsers).
-- **Reporting**: HTML reports are generated in `playwright-report/`.
-- **Trace/Screenshot/Video**: Enabled for failures (see `playwright.config.ts`).
+### Test Configuration Usage
+Always import and use `testConfig` for consistency:
+```typescript
+import { testConfig } from '@/data/testConfig';
+await page.goto(`${testConfig.baseUrl}${testConfig.routes.login}`);
+```
+
+### Evidence Collection Pattern
+Every test should use `EvidenceHelper` for documentation:
+```typescript
+import { EvidenceHelper } from '@/helpers/evidenceHelper';
+const evidence = new EvidenceHelper(page, 'test-name', 'feature');
+await evidence.captureStep('step-name', 'Description');
+```
+
+### Test Structure Convention
+- Use `test.describe()` for feature grouping
+- Structure with `test.step()` for clear reporting
+- Import pattern: `import { test, expect } from '@playwright/test';`
+- File naming: `<feature>.spec.ts` in `src/tests/e2e/`
 
 ## Developer Workflows
 
-- **Add new E2E test**: Place in `src/e2e-tests/`, follow Playwright/TypeScript conventions, reference `.github/instructions/playwright-typescript.instructions.md`.
-- **Lint**: `yarn lint` or `npm run lint`.
-- **Run tests**: `npx playwright test` (optionally specify browser/project).
-- **Debug**: Use Playwright's built-in trace viewer and HTML report.
+### Essential Commands
+- `yarn test` - Run all tests (configured for `src/tests/e2e/`)
+- `yarn test:e2e:dev` - Development mode (headed Chrome)
+- `yarn test:report` - View HTML reports with evidence
+- `yarn lint:fix` - Auto-fix ESLint issues
+
+### Quality Gates
+Pre-commit hooks enforce: formatting (Prettier), type checking (TypeScript), linting (ESLint with Playwright rules)
+
+### Test Generation Workflow
+1. Check `src/data/testConfig.ts` for app config and selectors
+2. Use MCP tools for exploration (`src/tests/e2e/` for final tests)
+3. Follow evidence capture pattern for documentation
+4. Execute and iterate until passing
 
 ## Integration Points
 
-- **MCP Server**: Used for automated test generation (see README for context).
-- **Playwright**: Main E2E test framework.
-- **TypeScript**: All test and helper code is strongly typed.
+- **Target App**: Expense tracker at `expense-tracker-app-smoky-seven.vercel.app`
+- **Evidence Storage**: `test-evidence/` with organized naming convention
+- **Reporting**: HTML reports in `playwright-report/`, JUnit in `test-evidence/`
+- **Browsers**: Chromium (dev), Firefox, WebKit (full suite)
 
-## Example: Minimal E2E Test
+## Locator Strategy
 
+Hierarchy: `data-testid` > `getByRole/getByLabel` > CSS selectors. Predefined selectors in `testConfig.ts`:
 ```typescript
-import { test, expect } from '@playwright/test';
-
-test.describe('Login Feature', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('https://your-app-url');
-  });
-
-  test('should log in with valid credentials', async ({ page }) => {
-    await page.getByTestId('username-input').fill('user');
-    await page.getByTestId('password-input').fill('pass');
-    await page.getByTestId('login-button').click();
-    await expect(page.getByTestId('dashboard')).toBeVisible();
-  });
-});
+selectors.login.emailInput // 'textbox[name="Email"]'
+selectors.login.togglePasswordButton // 'button[aria-label*="Toggle password"]'
 ```
 
-## References
+## Key Files Reference
 
-- `.github/instructions/playwright-typescript.instructions.md`: Test authoring standards
-- `playwright.config.ts`: Runner config and browser settings
-- `eslint.config.mjs`: Linting rules
-- `README.md`: Project overview and rationale
+- `playwright.config.ts`: Test runner pointing to `src/tests/e2e`
+- `.github/instructions/playwright-typescript.instructions.md`: Detailed authoring standards
+- `src/tests/e2e/login.spec.ts`: Reference implementation with evidence capture
+- `package.json`: Scripts for testing, quality, and reporting workflows
 
----
+## Testing Philosophy
 
-If any section is unclear or missing, please provide feedback to improve these instructions.
+### Expected Test Failures
+- Tests are designed to detect quality issues in external applications
+- Failing tests indicate bugs in the target application, not test framework issues
+- CI/CD workflows continue execution even with test failures (`continue-on-error: true`)
+- All evidence is collected regardless of test outcome for quality analysis

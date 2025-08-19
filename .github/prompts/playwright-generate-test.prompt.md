@@ -20,13 +20,13 @@ Before starting test generation, review the project configuration:
    - Common selectors for consistent element targeting
 
 2. **Test Structure**: Follow the existing pattern in `src/tests/e2e/`:
-   - Import and use `testConfig` from `../../data/testConfig`
+   - Import and use `testConfig` from `@/data/testConfig`
    - Use `EvidenceHelper` for screenshot capture
    - Structure tests with `test.describe()` and `test.step()`
    - Follow semantic locator patterns (`getByRole`, `getByLabel`, etc.)
 
 3. **Evidence Capture**: Use the project's evidence system:
-   - Import `EvidenceHelper` from `../../helpers/evidenceHelper`
+   - Import `EvidenceHelper` from `@/helpers/evidenceHelper`
    - Capture screenshots at key test steps
    - Use descriptive step names for documentation
 

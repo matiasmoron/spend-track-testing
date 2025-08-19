@@ -51,6 +51,8 @@ jobs:
         run: npx playwright install --with-deps
       - name: Run E2E tests
         run: yarn test
+        continue-on-error: true
+        id: test-step
       - name: Upload test results
         uses: actions/upload-artifact@v4
         if: always()
@@ -58,3 +60,16 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+      - name: Upload test evidence
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-evidence
+          path: test-evidence/
+          retention-days: 30
+      - name: Comment on test results
+        if: always()
+        run: |
+          echo "## 🧪 Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "Tests have completed. Check the uploaded artifacts for detailed results." >> $GITHUB_STEP_SUMMARY
+          echo "Note: Some test failures are expected as this project validates application quality." >> $GITHUB_STEP_SUMMARY
