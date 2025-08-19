@@ -7,7 +7,6 @@ test-evidence/
 !test-evidence/screenshots/.gitkeep
 !test-evidence/videos/.gitkeep
 !test-evidence/traces/.gitkeep
-playwright-report/
 test-results/
 
 # Environment variables
