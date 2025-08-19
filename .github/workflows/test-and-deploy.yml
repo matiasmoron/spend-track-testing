@@ -34,7 +34,7 @@ jobs:
         run: yarn type-check
         
       - name: Install Playwright browsers
-        run: yarn playwright install --with-deps
+        run: yarn playwright install
         
       - name: Run Playwright tests
         run: yarn test

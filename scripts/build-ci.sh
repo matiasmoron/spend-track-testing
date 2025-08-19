@@ -5,9 +5,14 @@ set -e
 
 echo "🚀 Starting CI build process..."
 
-# Install Playwright browsers with dependencies
-echo "📦 Installing Playwright browsers..."
-yarn playwright install --with-deps
+# Detect environment and install browsers accordingly
+if [ -n "$VERCEL" ]; then
+    echo "📦 Installing Playwright browsers for Vercel..."
+    yarn playwright install chromium
+else
+    echo "📦 Installing Playwright browsers with dependencies..."
+    yarn playwright install --with-deps
+fi
 
 # Create playwright-report directory if it doesn't exist
 mkdir -p playwright-report

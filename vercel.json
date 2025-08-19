@@ -1,5 +1,5 @@
 {
-  "buildCommand": "yarn build-reports:script",
+  "buildCommand": "yarn build-reports:vercel",
   "outputDirectory": "playwright-report",
   "installCommand": "yarn install",
   "framework": null,
