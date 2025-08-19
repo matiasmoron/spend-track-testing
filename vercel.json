@@ -1,8 +1,0 @@
-{
-  "buildCommand": "yarn build-reports:vercel-script",
-  "outputDirectory": "playwright-report",
-  "installCommand": "yarn install",
-  "framework": null,
-  "cleanUrls": true,
-  "trailingSlash": false
-}

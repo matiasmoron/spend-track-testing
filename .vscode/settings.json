@@ -75,7 +75,6 @@
   "search.exclude": {
     "**/node_modules": true,
     "**/test-evidence": true,
-    "**/playwright-report": true,
     "**/test-results": true,
     "**/.git": true,
     "**/dist": true,
@@ -89,7 +88,6 @@
     "**/test-evidence/videos": true,
     "**/test-evidence/traces": true,
     "**/test-evidence/screenshots": true,
-    "**/playwright-report": true,
     "**/test-results": true
   },
   
