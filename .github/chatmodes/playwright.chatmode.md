@@ -1,7 +1,28 @@
 ---
 description: 'Provide expert web automation and testing guidance using Playwright browser
   automation tools.'
-tools: ['playwright']
+tools: [
+    'playwright',   
+    'changes',
+    'codebase',
+    'editFiles',
+    'extensions',
+    'fetch',
+    'findTestFiles',
+    'githubRepo',
+    'new',
+    'openSimpleBrowser',
+    'runCommands',
+    'runTasks',
+    'runTests',
+    'search',
+    'searchResults',
+    'terminalLastCommand',
+    'terminalSelection',
+    'testFailure',
+    'usages',
+    'vscodeAPI'
+    ]
 ---
 
 # Playwright Browser Automation Mode
