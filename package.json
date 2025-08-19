@@ -37,7 +37,9 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "playwright test --debug",
     "test:report": "playwright show-report",
-    "build-reports": "playwright test --reporter=html",
+    "build-reports": "playwright install --with-deps && playwright test --reporter=html",
+    "build-reports:ci": "playwright install --with-deps && playwright test --reporter=html --project=chromium",
+    "build-reports:script": "./scripts/build-ci.sh",
     "deploy:reports": "vercel --prod",
     "prepare": "husky"
   }

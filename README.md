@@ -190,10 +190,12 @@ The CI/CD pipeline (`test-and-deploy.yml`) automatically:
 5. Comments results on pull requests
 
 ## 💻 Development Environment
+
 fix: resolve login redirect issue
 docs: update API documentation
 test: add integration tests
-```
+
+````
 
 ### Code Quality Tools
 
@@ -259,7 +261,7 @@ npx playwright install
 
 # Run tests in development mode
 yarn test:e2e:dev
-```
+````
 
 ### First Test Run
 
