@@ -1,0 +1,133 @@
+{
+  // Editor Configuration
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "editor.rulers": [100],
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  
+  // File Associations
+  "files.associations": {
+    "*.spec.ts": "typescript",
+    "*.config.ts": "typescript",
+    "*.config.js": "javascript"
+  },
+  
+  // Language Specific Settings
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one",
+    "editor.wordWrap": "on"
+  },
+  
+  // ESLint Configuration
+  "eslint.workingDirectories": ["./"],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  
+  // Prettier Configuration
+  "prettier.requireConfig": true,
+  "prettier.useEditorConfig": false,
+  
+  // TypeScript Configuration
+  "typescript.preferences.includePackageJsonAutoImports": "auto",
+  "typescript.suggest.autoImports": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  
+  // Playwright Configuration
+  "playwright.reuseBrowser": true,
+  "playwright.showTrace": true,
+  
+  // Git Configuration
+  "git.autofetch": true,
+  "git.enableSmartCommit": true,
+  "gitlens.codeLens.enabled": false,
+  
+  // Explorer Configuration
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "*.ts": "${capture}.spec.ts,${capture}.test.ts",
+    "*.js": "${capture}.spec.js,${capture}.test.js",
+    "package.json": "package-lock.json,yarn.lock,.nvmrc,.node-version",
+    "tsconfig.json": "tsconfig.*.json",
+    "playwright.config.ts": "playwright.config.*.ts"
+  },
+  
+  // Search Configuration
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/test-evidence": true,
+    "**/playwright-report": true,
+    "**/test-results": true,
+    "**/.git": true,
+    "**/dist": true,
+    "**/build": true
+  },
+  
+  // Files Configuration
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/.git": true,
+    "**/test-evidence/videos": true,
+    "**/test-evidence/traces": true,
+    "**/test-evidence/screenshots": true,
+    "**/playwright-report": true,
+    "**/test-results": true
+  },
+  
+  // Terminal Configuration
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.cwd": "${workspaceFolder}",
+  
+  // Todo Tree Configuration
+  "todo-tree.general.tags": [
+    "BUG",
+    "HACK",
+    "FIXME",
+    "TODO",
+    "XXX",
+    "[ ]",
+    "[x]"
+  ],
+  "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*(-|\\*))\\s*($TAGS)",
+  
+  // Spell Checker Configuration
+  "cSpell.words": [
+    "commitlint",
+    "husky",
+    "playwright",
+    "testid",
+    "evidences",
+    "testconfig",
+    "spendly"
+  ],
+  
+  // Conventional Commits Configuration
+  "conventionalCommits.scopes": [
+    "auth",
+    "ui",
+    "api",
+    "test",
+    "config",
+    "docs",
+    "ci"
+  ]
+}

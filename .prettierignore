@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Test artifacts
+test-evidence/
+playwright-report/
+test-results/
+
+# Coverage reports
+coverage/
+
+# Configuration files that may have different formatting requirements
+commitlint.config.js
+
+# Logs
+*.log
+
+# GitHub configuration files (often have specific formatting requirements)
+.github/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Package manager files
+package-lock.json
+yarn.lock
+
+# Environment files
+.env
+.env.*
+
+# IDE files
+.vscode/
+.idea/

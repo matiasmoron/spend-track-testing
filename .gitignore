@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+
+# Test artifacts
+test-evidence/
+!test-evidence/README.md
+!test-evidence/screenshots/.gitkeep
+!test-evidence/videos/.gitkeep
+!test-evidence/traces/.gitkeep
+playwright-report/
+test-results/
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.test
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.idea/
+*.swp
+*.swo
+*~
+
+# Personal VSCode settings (keep project configuration)
+.vscode/settings.local.json
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Keep the evidence structure and documentation
+!test-evidence/README.md
+!test-evidence/.gitkeep

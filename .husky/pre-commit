@@ -1,0 +1,12 @@
+echo "🔍 Running pre-commit checks..."
+
+echo "📐 Checking code formatting..."
+yarn format:check
+
+echo "🔧 Running type checking..."
+yarn check-types
+
+echo "🧹 Running linting..."
+yarn lint
+
+echo "✅ All pre-commit checks passed!"

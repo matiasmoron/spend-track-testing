@@ -1,0 +1,42 @@
+{
+  "recommendations": [
+    // TypeScript and JavaScript
+    "ms-vscode.vscode-typescript-next",
+    
+    // Playwright Testing
+    "ms-playwright.playwright",
+    
+    // Code Quality and Formatting
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    
+    // Git and Commit Management
+    "eamodio.gitlens",
+    "vivaxy.vscode-conventional-commits",
+    
+    // Markdown and Documentation
+    "yzhang.markdown-all-in-one",
+    "davidanson.vscode-markdownlint",
+    
+    // JSON and Configuration Files
+    "zainchen.json",
+    
+    // General Development
+    "ms-vscode.vscode-json",
+    "bradlc.vscode-tailwindcss",
+    "christian-kohler.path-intellisense",
+    
+    // Productivity
+    "gruntfuggly.todo-tree",
+    "streetsidesoftware.code-spell-checker",
+    
+    // Theme and UI (Optional)
+    "pkief.material-icon-theme",
+    "github.github-vscode-theme"
+  ],
+  "unwantedRecommendations": [
+    // Extensions that might conflict with our setup
+    "ms-vscode.vscode-json-languageservice",
+    "hookyqr.beautify"
+  ]
+}
