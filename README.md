@@ -4,9 +4,13 @@
 
 This repository provides a comprehensive, scalable, and maintainable solution for end-to-end (E2E) and integration testing using Playwright and TypeScript, enhanced by Model Context Protocol (MCP) servers. The project automates test generation based on defined use cases, ensuring high coverage, reliability, and maintainability with enterprise-grade tooling and best practices.
 
+**🎯 Quality Assurance Focus**: This project validates external applications for quality issues. Test failures are expected and indicate bugs or quality problems in the target application that need attention.
+
 ## 🚀 Features
 
 - **Automated Test Generation** - MCP server integration for intelligent test creation
+- **Quality Validation** - Tests designed to detect bugs and quality issues in target applications
+- **Expected Failures** - Test failures indicate quality problems, not testing framework issues
 - **Comprehensive Quality Tooling** - ESLint, Prettier, TypeScript, and Husky pre-commit hooks
 - **Evidence Collection** - Automated screenshots, videos, and traces for test documentation
 - **VSCode Integration** - Full development environment configuration
@@ -36,9 +40,10 @@ spend-track-testing/
 ├── docs/
 │   └── CONVENTIONAL_COMMITS.md             # Commit message guidelines
 ├── src/
-│   ├── api-tests/                          # API test suites (future)
-│   ├── e2e-tests/                          # Playwright E2E tests
-│   │   └── login.spec.ts                   # Login flow tests
+│   ├── tests/                              # Test suites
+│   │   ├── api/                            # API test suites (Future)
+│   │   └── e2e/                            # Playwright E2E tests
+│   │       └── login.spec.ts               # Login flow tests
 │   ├── helpers/                            # Test utilities
 │   │   └── evidenceHelper.ts               # Evidence collection
 │   └── data/                               # Test data and configuration
@@ -107,7 +112,7 @@ login__happy-path-login__form-filled__SUCCESS__2025-08-19T12-30-45-123Z.png
 ### Usage
 
 ```typescript
-import { EvidenceHelper } from '../helpers/evidenceHelper';
+import { EvidenceHelper } from '@/helpers/evidenceHelper';
 
 const evidence = new EvidenceHelper(page, 'test-name', 'feature');
 await evidence.captureStep('step-name', 'Description of what happened');
@@ -129,6 +134,8 @@ TEST_PASSWORD=supersegura123
 - Environment variable integration
 - Reusable selector definitions
 - Test credential management
+
+**Note**: The project uses absolute imports with `@/` prefix (e.g., `@/data/testConfig`, `@/helpers/evidenceHelper`). See `tsconfig.json` for path mapping configuration.
 
 ## 🔧 Quality Assurance
 
@@ -197,6 +204,32 @@ test: add integration tests
 
 ````
 
+## 🎯 Testing Philosophy
+
+### Quality Assurance Approach
+
+This project serves as a **quality validation system** for external applications. The testing strategy includes:
+
+- **Expected Failures**: Test failures indicate quality issues in the target application, not problems with the test framework
+- **Bug Detection**: Tests are designed to uncover bugs, usability issues, and inconsistencies
+- **Evidence Collection**: Comprehensive documentation of both successful flows and detected issues
+- **Continuous Monitoring**: Regular execution to catch regressions and new quality problems
+
+### Interpreting Results
+
+- ✅ **Passing Tests**: Application features work as expected
+- ❌ **Failing Tests**: Quality issues detected in the target application
+- 📸 **Evidence**: Screenshots and videos document both success and failure scenarios
+- 📊 **Reports**: Detailed HTML reports provide comprehensive test analysis
+
+### CI/CD Behavior
+
+- Workflows continue execution even when tests fail (expected behavior)
+- All test results and evidence are uploaded regardless of pass/fail status
+- Test failures in CI indicate quality issues that need addressing in the target application
+
+## 💻 Development Environment
+
 ### Code Quality Tools
 
 - **ESLint** - Code linting with TypeScript and Playwright rules
@@ -235,6 +268,7 @@ test: add integration tests
 ### Test Organization
 
 - Feature-based test files (`login.spec.ts`)
+- Tests located in `src/tests/e2e/` directory
 - Descriptive test and step titles
 - Reusable helper functions
 - Centralized configuration

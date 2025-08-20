@@ -8,7 +8,14 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "dist",
-    "types": ["@playwright/test", "node"]
+    "types": ["@playwright/test", "node"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@/data/*": ["src/data/*"],
+      "@/helpers/*": ["src/helpers/*"],
+      "@/tests/*": ["src/tests/*"]
+    }
   },
   "include": ["src/**/*.ts"]
 }
