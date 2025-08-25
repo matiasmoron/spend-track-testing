@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { testConfig } from '../../data/testConfig';
 import { EvidenceHelper } from '../../helpers/evidenceHelper';
+import { TestDataGenerator } from '../../helpers/testDataGenerator';
 
 test.describe('Register Feature', () => {
   test.beforeEach(async ({ page }) => {
@@ -301,6 +302,163 @@ test.describe('Register Feature', () => {
       await evidence.captureStep(
         'validation-message-visible',
         'Minimum 6 characters validation message is displayed below Password field'
+      );
+    });
+  });
+
+  test('should show error message when trying to register with an email that already exists', async ({
+    page,
+  }) => {
+    const evidence = new EvidenceHelper(page, 'email-already-registered', 'register');
+
+    // Generate test user with existing email
+    const existingEmailUser = TestDataGenerator.generateExistingEmailTestUser();
+
+    await test.step('1. Fill Name field with realistic name', async () => {
+      // Fill Name field with realistic name from Faker
+      await page.getByRole('textbox', { name: 'Name' }).fill(existingEmailUser.name);
+
+      // Capture evidence of Name field filled
+      await evidence.captureStep(
+        'name-field-filled',
+        `Name field filled with realistic name: "${existingEmailUser.name}"`
+      );
+    });
+
+    await test.step('2. Fill Email field with existing email "fedegastos@gmail.com"', async () => {
+      // Fill Email field with an email that already exists in the system
+      await page.getByRole('textbox', { name: 'Email' }).fill(existingEmailUser.email);
+
+      // Capture evidence of Email field filled with existing email
+      await evidence.captureStep(
+        'email-field-filled-existing',
+        `Email field filled with existing email "${existingEmailUser.email}"`
+      );
+    });
+
+    await test.step('3. Fill Password field with generated password', async () => {
+      // Fill Password field with generated password
+      await page.getByRole('textbox', { name: 'Password' }).fill(existingEmailUser.password);
+
+      // Capture evidence of Password field filled
+      await evidence.captureStep(
+        'password-field-filled',
+        'Password field filled with generated password'
+      );
+    });
+
+    await test.step('4. Click Register button', async () => {
+      // Click the Register button
+      await page.locator('button[type="submit"]').click();
+
+      // Capture evidence of clicking register with existing email
+      await evidence.captureStep(
+        'register-button-clicked-existing-email',
+        'Register button clicked with existing email'
+      );
+    });
+
+    await test.step('5. Verify error message appears for existing email', async () => {
+      // Verify that the error message appears
+      await expect(page.getByText('The email is already registered.')).toBeVisible();
+
+      // Capture evidence of error message displayed
+      await evidence.captureStep(
+        'email-already-registered-error',
+        'Error message displayed: "The email is already registered."'
+      );
+    });
+
+    await test.step('6. Close error dialog', async () => {
+      // Click OK button to close the error dialog
+      await page.getByRole('button', { name: 'OK' }).click();
+
+      // Verify the dialog is closed and we're still on register page
+      await expect(page).toHaveURL(`${testConfig.baseUrl}${testConfig.routes.register}`);
+
+      // Capture evidence of error dialog closed
+      await evidence.captureStep(
+        'error-dialog-closed',
+        'Error dialog closed and user remains on register page'
+      );
+    });
+  });
+
+  test('Register Happy Path - should register successfully with valid credentials', async ({
+    page,
+  }) => {
+    const evidence = new EvidenceHelper(page, 'successful-registration', 'register');
+
+    // Generate random test data using TestDataGenerator
+    const testUser = TestDataGenerator.generateRegistrationTestUser();
+
+    await test.step('1. Fill Name field with random name', async () => {
+      // Fill Name field with random 10-character name
+      await page.getByRole('textbox', { name: 'Name' }).fill(testUser.name);
+
+      // Capture evidence of Name field filled
+      await evidence.captureStep(
+        'name-field-filled-random',
+        `Name field filled with random name: "${testUser.name}"`
+      );
+    });
+
+    await test.step('2. Fill Email field with random email', async () => {
+      // Fill Email field with random email
+      await page.getByRole('textbox', { name: 'Email' }).fill(testUser.email);
+
+      // Capture evidence of Email field filled
+      await evidence.captureStep(
+        'email-field-filled-random',
+        `Email field filled with random email: "${testUser.email}"`
+      );
+    });
+
+    await test.step('3. Fill Password field with "1234567"', async () => {
+      // Fill Password field with specified password
+      await page.getByRole('textbox', { name: 'Password' }).fill(testUser.password);
+
+      // Capture evidence of Password field filled
+      await evidence.captureStep('password-field-filled', 'Password field filled with "1234567"');
+    });
+
+    await test.step('4. Click Register button', async () => {
+      // Click the Register button
+      await page.locator('button[type="submit"]').click();
+
+      // Capture evidence of clicking register
+      await evidence.captureStep(
+        'register-button-clicked',
+        'Register button clicked with valid data'
+      );
+    });
+
+    await test.step('5. Verify success message appears', async () => {
+      // Verify that the success message appears
+      await expect(
+        page.getByText('Registration successful! Redirecting to login...')
+      ).toBeVisible();
+
+      // Capture evidence of success message displayed
+      await evidence.captureStep(
+        'registration-success-message',
+        'Success message displayed: "Registration successful! Redirecting to login..."'
+      );
+    });
+
+    await test.step('6. Verify automatic redirection to login page', async () => {
+      // Wait for and verify redirection to login page
+      await expect(page).toHaveURL(`${testConfig.baseUrl}${testConfig.routes.login}`);
+
+      // Verify login page elements are visible
+      await expect(page.getByRole('heading', { name: 'Login' })).toBeVisible();
+      await expect(page.getByRole('textbox', { name: 'Email' })).toBeVisible();
+      await expect(page.getByRole('textbox', { name: 'Password' })).toBeVisible();
+
+      // Capture evidence of successful redirection
+      await evidence.captureStep(
+        'redirected-to-login-success',
+        'Successfully redirected to login page after registration'
       );
     });
   });
