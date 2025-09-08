@@ -205,4 +205,71 @@ test.describe('Login Feature', () => {
       );
     });
   });
+
+  test('should show validation message when submitting empty form', async ({ page }) => {
+    const evidence = new EvidenceHelper(page, 'empty-form-validation', 'login');
+
+    await test.step('Verify initial state - no validation message', async () => {
+      // Verify that no validation message is initially visible
+      await expect(page.getByText('Please fill in all fields.')).not.toBeVisible();
+
+      // Capture evidence of initial clean state
+      await evidence.captureStep(
+        'initial-state',
+        'Login form in initial state without validation messages'
+      );
+    });
+
+    await test.step('Submit empty form and verify validation message', async () => {
+      // Click the Login button without filling any fields
+      await page.getByRole('button', { name: 'Login' }).click();
+
+      // Verify that the validation message appears
+      await expect(page.getByText('Please fill in all fields.')).toBeVisible();
+
+      // Verify we're still on the login page (no navigation occurred)
+      await expect(page).toHaveURL(`${testConfig.baseUrl}${testConfig.routes.login}`);
+
+      // Capture evidence of validation message appearing
+      await evidence.captureStep(
+        'validation-message-shown',
+        'Validation message appears when trying to login with empty fields'
+      );
+    });
+  });
+
+  test('should show error message when using invalid credentials', async ({ page }) => {
+    const evidence = new EvidenceHelper(page, 'invalid-credentials', 'login');
+
+    await test.step('Fill in invalid credentials', async () => {
+      // Fill email field with invalid email
+      await page.getByRole('textbox', { name: 'Email' }).fill('asdf@gmail.com');
+
+      // Fill password field with invalid password
+      await page.getByRole('textbox', { name: 'Password' }).fill('12345');
+
+      // Capture evidence of filled form with invalid credentials
+      await evidence.captureStep(
+        'invalid-form-filled',
+        'Login form filled with invalid credentials'
+      );
+    });
+
+    await test.step('Submit form with invalid credentials and verify error message', async () => {
+      // Click login button
+      await page.getByRole('button', { name: 'Login' }).click();
+
+      // Verify that error message appears
+      await expect(page.getByText('Incorrect email or password.')).toBeVisible();
+
+      // Verify we're still on the login page (no navigation occurred)
+      await expect(page).toHaveURL(`${testConfig.baseUrl}${testConfig.routes.login}`);
+
+      // Capture evidence of error message appearing
+      await evidence.captureStep(
+        'invalid-credentials-error-shown',
+        'Error message appears when trying to login with invalid credentials'
+      );
+    });
+  });
 });
